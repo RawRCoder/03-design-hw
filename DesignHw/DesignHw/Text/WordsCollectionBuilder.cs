@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DesignHw
+namespace DesignHw.Text
 {
     public abstract class WordsCollectionBuilder<T> where T:Word
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DesignHw
+namespace DesignHw.Text
 {
     public class WordsCollection<T> : IEnumerable<T> 
         where T : Word
@@ -10,9 +10,14 @@ namespace DesignHw
         public WordsCollection(IEnumerable<T> words)
         {
             var coll = words.ToList();
-            coll.Sort();
+            coll.Sort((x, y) => -x.CompareTo(y));
             Collection = coll.ToArray();
             TotalWords = (uint)Collection.Length;
+
+            foreach (var w in Collection)
+            {
+                w.PercantageWeight = (double) (w.Weight/coll[0].Weight);
+            }
         }
 
         protected T[] Collection { get; }

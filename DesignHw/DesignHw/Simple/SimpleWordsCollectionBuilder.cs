@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DesignHw.Text;
 
-namespace DesignHw.Implementations
+namespace DesignHw.Simple
 {
     public class SimpleWordsCollectionBuilder<T> : WordsCollectionBuilder<T> where T : Word
     {

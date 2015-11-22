@@ -2,21 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DesignHw.Text;
+using NHunspell;
 
 namespace DesignHw.Simple
 {
     public class SimpleWordsCollectionBuilder<T> : WordsCollectionBuilder<T> where T : Word
     {
+        public Hunspell Hunspell { get; }
         public HashSet<string> RestrictedWords { get; } = new HashSet<string>();
-        public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor)
-            : base(wordConstructor) { }
+        public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor, Hunspell hunspell)
+            : base(wordConstructor)
+        {
+            Hunspell = hunspell;
+        }
 
         public override string Normalize(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
                 return null;
-
-            // TODO: Word normalization / stemming should be nice here
+            
+            word = Hunspell.Stem(word).FirstOrDefault() ?? word;
 
             word = word.Trim().ToUpperInvariant();
             word = new string(word.Where(char.IsLetterOrDigit).ToArray());

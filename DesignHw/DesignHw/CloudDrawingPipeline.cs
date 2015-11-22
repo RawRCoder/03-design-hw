@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DesignHw.Graphics;
+using System.Drawing;
+using DesignHw.Rendering;
 using DesignHw.Text;
 
 namespace DesignHw
@@ -26,12 +27,12 @@ namespace DesignHw
             Renderer = renderer;
         }
 
-        public void DrawCloud(string text, System.Drawing.Graphics target)
+        public void DrawCloud(string text, Graphics target)
         {
             var words = text.Split(new [] {" ", "\n", "\r", "\t"}, StringSplitOptions.RemoveEmptyEntries);
             DrawCloud(words, target);
         }
-        public void DrawCloud(IEnumerable<string> words, System.Drawing.Graphics target)
+        public void DrawCloud(IEnumerable<string> words, Graphics target)
         {
             foreach (var word in words)
                 WordsCollectionBuilder.Register(word);

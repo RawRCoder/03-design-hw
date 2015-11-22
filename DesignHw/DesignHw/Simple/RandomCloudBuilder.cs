@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using DesignHw.Graphics;
+using DesignHw.Rendering;
 using DesignHw.Text;
 
 namespace DesignHw.Simple
@@ -10,10 +10,10 @@ namespace DesignHw.Simple
         where TWord : Word
     {
         readonly Random _r = new Random();
-        public override Cloud<TWord> Build(WordsCollection<TWord> words, WordRenderer<TWord> renderer, System.Drawing.Graphics g) 
+        public override Cloud<TWord> Build(WordsCollection<TWord> words, WordRenderer<TWord> renderer, Graphics g) 
             => new Cloud<TWord>(ContinousBuild(words, renderer, g));
 
-        private IEnumerable<Block<TWord>> ContinousBuild(IEnumerable<TWord> words, WordRenderer<TWord> renderer, System.Drawing.Graphics g)
+        private IEnumerable<Block<TWord>> ContinousBuild(IEnumerable<TWord> words, WordRenderer<TWord> renderer, Graphics g)
         {
             foreach (var word in words)
             {

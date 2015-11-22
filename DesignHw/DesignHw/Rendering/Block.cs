@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace DesignHw.Graphics
+namespace DesignHw.Rendering
 {
     public class Block<T>
     {

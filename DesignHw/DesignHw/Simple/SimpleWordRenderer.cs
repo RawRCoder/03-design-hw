@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using DesignHw.Graphics;
+using DesignHw.Rendering;
 using DesignHw.Text;
 
 namespace DesignHw.Simple
@@ -17,7 +17,7 @@ namespace DesignHw.Simple
             => Color.FromArgb((int) (word.PercantageWeight*255), BasicColor());
         public override Font GetFontFor(T word)
             => new Font(BasicFont, (int) (word.PercantageWeight*(MaxFontSize - MinFontSize) + MinFontSize));
-        public override SizeF CalculateSize(T word, System.Drawing.Graphics g)
+        public override SizeF CalculateSize(T word, Graphics g)
         {
             return g.MeasureString(word.Text, GetFontFor(word));
         }

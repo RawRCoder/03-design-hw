@@ -8,9 +8,10 @@ namespace DesignHw.Simple
     public class SimpleWordRenderer<T> : WordRenderer<T>
         where T : Word
     {
+        static readonly Random R = new Random();
         public int MinFontSize { get; set; } = 6;
         public int MaxFontSize { get; set; } = 36;
-        public Func<Color> BasicColor { get; set; } = () => Color.Red;
+        public Func<Color> BasicColor { get; set; } = () => Color.FromArgb(R.Next(125, 255), R.Next(125, 255), R.Next(125, 255));
         public FontFamily BasicFont { get; set; } = FontFamily.GenericSansSerif;
 
         public override Color GetColorFor(T word)

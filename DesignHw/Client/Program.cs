@@ -32,14 +32,15 @@ namespace Client
                 using (var hunspell = new Hunspell(clargs.AffFile, clargs.DicFile))
                 {
                     var wordsCollectionBuilder = new SimpleWordsCollectionBuilder<Word>(s => new Word(s), hunspell);
-                    wordsCollectionBuilder.RestrictedWords.UnionWith("а из у от не и то это да ни как так но также тоже или то это либо толи да за с он она в на что его".ToUpperInvariant().Split());
+                    wordsCollectionBuilder.RestrictedWords.UnionWith("бы по о к же ли по а из у от не и то это да ни как так но также тоже или то это либо толи да за с он она в на что".ToUpperInvariant().Split());
                     var pl = new CloudDrawingPipeline<Word>(
                         wordsCollectionBuilder,
                         new RandomCloudBuilder<Word>(),
                         new SimpleWordRenderer<Word>());
-                    //
+                    
                     var img = new Bitmap(clargs.Width, clargs.Height);
                     var g = Graphics.FromImage(img);
+                    g.Clear(Color.Black);
                     pl.DrawCloud(File.ReadAllText(clargs.InputFile, Encoding.UTF8), g);
                     img.Save(clargs.OutputFile, ImageFormat.Png);
                 }

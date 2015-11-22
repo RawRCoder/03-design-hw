@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 
 namespace Client
 {
@@ -16,5 +17,12 @@ namespace Client
         public string AffFile { get; set; }
         [Option('d', "dic", HelpText = "DIC file for text normalization", DefaultValue = "ru_RU.dic")]
         public string DicFile { get; set; }
+
+        [HelpOption]
+        public string GetUsage()
+        {
+            return HelpText.AutoBuild(this,
+              current => HelpText.DefaultParsingErrorsHandler(this, current));
+        }
     }
 }

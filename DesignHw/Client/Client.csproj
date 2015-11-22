@@ -57,8 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Hunspellx64.dll" />
-    <None Include="Hunspellx86.dll" />
     <None Include="packages.config" />
     <None Include="ru_RU.aff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

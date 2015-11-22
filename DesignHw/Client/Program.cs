@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using CommandLine;
 using DesignHw;
 using DesignHw.Simple;
@@ -50,6 +47,10 @@ namespace Client
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine($"Файл не найден - '{ex.FileName}'");
+            }
+            catch (DllNotFoundException ex)
+            {
+                Console.WriteLine($"Библиотека не найдена - '{ex.Message}'");
             }
             catch (Exception ex)
             {

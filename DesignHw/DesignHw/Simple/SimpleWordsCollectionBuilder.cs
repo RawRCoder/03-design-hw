@@ -9,7 +9,6 @@ namespace DesignHw.Simple
     public class SimpleWordsCollectionBuilder<T> : WordsCollectionBuilder<T> where T : Word
     {
         public Hunspell Hunspell { get; }
-        public HashSet<string> RestrictedWords { get; } = new HashSet<string>();
         public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor, Hunspell hunspell)
             : base(wordConstructor)
         {
@@ -29,7 +28,7 @@ namespace DesignHw.Simple
             return string.IsNullOrWhiteSpace(word) ? null : word;
         }
 
-        public override bool IsAGoodWord(string word)
+        public override bool IsWordSuitable(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
                 return false;

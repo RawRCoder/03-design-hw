@@ -14,8 +14,9 @@ namespace DesignHw.Text
         private Dictionary<string, T> Collection { get; } = new Dictionary<string, T>();
         
         public abstract string Normalize(string word);
-        public abstract bool IsAGoodWord(string word);
+        public abstract bool IsWordSuitable(string word);
         public abstract void OnEncounterWord(Word word);
+        public virtual HashSet<string> RestrictedWords { get; set; } = new HashSet<string>();
 
         public uint TotalWords { get; private set; }
 
@@ -23,7 +24,7 @@ namespace DesignHw.Text
         public bool Register(string word)
         {
             word = Normalize(word);
-            if (!IsAGoodWord(word))
+            if (!IsWordSuitable(word))
                 return false;
 
             ++TotalWords;

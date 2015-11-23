@@ -17,6 +17,8 @@ namespace Client
         public string AffFile { get; set; }
         [Option('d', "dic", HelpText = "DIC file for text normalization", DefaultValue = "ru_RU.dic")]
         public string DicFile { get; set; }
+        [Option('r', "restrict", HelpText = "Text file with restricted words in it", DefaultValue = "restricted.txt")]
+        public string RestrictedFileName { get; set; }
 
         [HelpOption]
         public string GetUsage()

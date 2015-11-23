@@ -45,7 +45,7 @@ namespace Client
             var di = new StandardKernel();
             di.Bind<Func<string, Word>>().ToConstant<Func<string, Word>>(s => new Word(s));
             di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>().WithPropertyValue("RestrictedWords", new HashSet<string>(restrictedWords));
-            di.Bind<CloudBuilder<Word>>().To<RandomCloudBuilder<Word>>();
+            di.Bind<CloudBuilder<Word>>().To<PackingCloudBuilder<Word>>();
             di.Bind<WordRenderer<Word>>().To<SimpleWordRenderer<Word>>();
             di.Bind<Hunspell>().ToConstant(new Hunspell(clargs.AffFile, clargs.DicFile));
 
@@ -72,11 +72,11 @@ namespace Client
             catch (DllNotFoundException ex)
             {
                 Console.WriteLine($"Библиотека не найдена - '{ex.Message}'");
-            }
+            }/*
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
+            }*/
         }
     }
 }

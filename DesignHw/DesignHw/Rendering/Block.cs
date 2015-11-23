@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.Remoting.Messaging;
 
 namespace DesignHw.Rendering
 {
@@ -35,5 +36,8 @@ namespace DesignHw.Rendering
 
         public bool Contains(Block<T> other)
             => other.IsInside(this);
+
+        public override string ToString()
+            => $"{LeftTop}, {Size}";
     }
 }

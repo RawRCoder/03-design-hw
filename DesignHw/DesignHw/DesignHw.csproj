@@ -51,6 +51,7 @@
     <Compile Include="Rendering\Block.cs" />
     <Compile Include="Rendering\Cloud.cs" />
     <Compile Include="Rendering\CloudBuilder.cs" />
+    <Compile Include="Simple\PackingCloudBuilder.cs" />
     <Compile Include="Simple\RandomCloudBuilder.cs" />
     <Compile Include="Simple\SimpleWordRenderer.cs" />
     <Compile Include="Rendering\WordRenderer.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DesignHw.Simple;
 using DesignHw.Text;
 using NHunspell;
@@ -31,5 +32,21 @@ namespace DesignHwTesting
         [TestCase("http://microsoft.com", ExpectedResult = "HTTPMICROSOFTCOM")]
         public string TestNormalization(string word)
             => builder.Normalize(word);
+
+        [TestCase(null, ExpectedResult = false)]
+        [TestCase("ЛАЛ", ExpectedResult = true)]
+        public bool TestSuitable(string word)
+            => builder.IsWordSuitable(word);
+        
+        [TestCase("ЛАЛ", "ЛАЛ", ExpectedResult = false)]
+        [TestCase("ЛАЛ", "ЛАЛА", ExpectedResult = true)]
+        [TestCase("ЛАЛА", "ЛАЛ", ExpectedResult = true)]
+        public bool TestSuitable(string word, params string[] restricted)
+        {
+            builder.RestrictedWords = new HashSet<string>(restricted);
+            var result = builder.IsWordSuitable(word);
+            builder.RestrictedWords = new HashSet<string>();
+            return result;
+        }
     }
 }

@@ -11,72 +11,80 @@ namespace DesignHw.Simple
     {
         public override Cloud<TWord> Build(WordsCollection<TWord> words, WordRenderer<TWord> renderer, Graphics g)
         {
-            var blocks = Prepare(words, renderer, g).ToList();
-           // blocks.Sort((a, b) => a.Size.Height.CompareTo(b.Size.Height));
+            var blocks = BuildBlocks(words, renderer, g).ToList();
             Pack(blocks, g);
             return new Cloud<TWord>(blocks);
         }
 
         private void Pack(IEnumerable<Block<TWord>> blocks, Graphics g)
         {
-            var maxx = (int) Math.Ceiling(g.VisibleClipBounds.Width) - 1;
-            var level = new int[maxx+1];
+            var maxX = (int) Math.Ceiling(g.VisibleClipBounds.Width) - 1;
+            var level = new int[maxX + 1];
             foreach (var bl in blocks)
+                PackBlock(bl, maxX, level, g);
+        }
+
+        private void PackBlock(Block<TWord> bl, int maxX, int[] level, Graphics g)
+        {
+            TryPlaceBlockRightToLeft(bl, maxX, level);
+            TryPlaceBlockLeftToRight(bl, maxX, level);
+
+            if (g.VisibleClipBounds.Height - bl.LeftTop.Y < bl.Size.Height)
             {
-                var height = level[maxx];
-                var width = 1;
-                for (var x = maxx-1; x >= 0; --x)
-                {
-                    if (level[x] > height)
-                    {
-                        height = level[x];
-                    }
-                    ++width;
-                    if (bl.Size.Width <= width)
-                    {
-                        bl.LeftTop = new PointF(maxx - width, height);
-                        break;
-                    }
-                }
+                bl.LeftTop = new PointF(-bl.Size.Width, -bl.Size.Height);
+                return;
+            }
+            AddBlockToLevel(bl, level);
+        }
 
-                height = level[0];
-                width = 1;
-                var startX = 0;
-                for (var x = 1; x <= maxx; ++x)
+        private void TryPlaceBlockRightToLeft(Block<TWord> bl, int maxX, int[] level)
+        {
+            var height = level[maxX];
+            var width = 1;
+            for (var x = maxX - 1; x >= 0; --x)
+            {
+                if (level[x] > height)
+                    height = level[x];
+                ++width;
+                if (bl.Size.Width <= width)
                 {
-                    if (level[x] < bl.LeftTop.Y && height > bl.LeftTop.Y)
-                    {
-                        width = 1;
-                        startX = x;
-                        height = level[x];
-                    }
-
-                    if (level[x] > height)
-                    {
-                        height = level[x];
-                    }
-                    ++width;
-                    if (bl.Size.Width <= width && height <= bl.LeftTop.Y)
-                    {
-                        bl.LeftTop = new PointF(startX, height);
-                        break;
-                    }
-                }
-
-                if (g.VisibleClipBounds.Height - height < bl.Size.Height)
-                {
-                    bl.LeftTop = new PointF(-bl.Size.Width, -bl.Size.Height);
-                    continue;
-                }
-
-                for (var x = 0; x < (int)bl.Size.Width; ++x)
-                {
-                    level[(int) bl.LeftTop.X + x] = (int) (bl.LeftTop.Y + bl.Size.Height);
+                    bl.LeftTop = new PointF(maxX - width, height);
+                    break;
                 }
             }
         }
+        private void TryPlaceBlockLeftToRight(Block<TWord> bl, int maxX, int[] level)
+        {
+            var height = level[0];
+            var width = 1;
+            var startX = 0;
+            for (var x = 1; x <= maxX; ++x)
+            {
+                if (level[x] < bl.LeftTop.Y && height > bl.LeftTop.Y)
+                {
+                    width = 1;
+                    startX = x;
+                    height = level[x];
+                }
 
-        private IEnumerable<Block<TWord>> Prepare(IEnumerable<TWord> words, WordRenderer<TWord> renderer, Graphics g)
+                if (level[x] > height)
+                    height = level[x];
+                ++width;
+                if (bl.Size.Width <= width && height <= bl.LeftTop.Y)
+                {
+                    bl.LeftTop = new PointF(startX, height);
+                    break;
+                }
+            }
+        }
+        private void AddBlockToLevel(Block<TWord> bl, int[] level)
+        {
+            for (var x = 0; x < (int)bl.Size.Width; ++x)
+                level[(int)bl.LeftTop.X + x] = (int)(bl.LeftTop.Y + bl.Size.Height);
+            
+        }
+
+        private IEnumerable<Block<TWord>> BuildBlocks(IEnumerable<TWord> words, WordRenderer<TWord> renderer, Graphics g)
         {
             foreach (var word in words)
             {

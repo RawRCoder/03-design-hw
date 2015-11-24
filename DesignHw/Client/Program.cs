@@ -21,11 +21,6 @@ namespace Client
             var clargs = new CommandLineArgs();
             if (!Parser.Default.ParseArguments(args, clargs))
                 return;
-            if (string.IsNullOrWhiteSpace(clargs.InputFile))
-            {
-                Console.WriteLine(clargs.GetUsage());
-                return;
-            }
 
             if (string.IsNullOrWhiteSpace(clargs.OutputFile))
                 clargs.OutputFile = Path.ChangeExtension(clargs.InputFile, ".png");
@@ -72,11 +67,11 @@ namespace Client
             catch (DllNotFoundException ex)
             {
                 Console.WriteLine($"Библиотека не найдена - '{ex.Message}'");
-            }/*
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }*/
+            }
         }
     }
 }

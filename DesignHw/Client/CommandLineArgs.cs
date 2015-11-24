@@ -5,7 +5,7 @@ namespace Client
 {
     class CommandLineArgs
     {
-        [Option('s', "src", HelpText = "Source file name (text-file)")]
+        [Option('s', "src", HelpText = "Source file name (text-file)", Required = true)]
         public string InputFile { get; set; }
         [Option('t', "target", HelpText = "Target file name (image)")]
         public string OutputFile { get; set; }

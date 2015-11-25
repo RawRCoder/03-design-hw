@@ -23,84 +23,53 @@ namespace DesignHw
                 (float) r.NextDouble(region.Left, region.Right),
                 (float) r.NextDouble(region.Bottom, region.Top));
 
-        public static Color FromAHSB(int alpha, float hue, float saturation, float brightness)
+        public static Color FromAHSB(byte alpha, float hue, float saturation, float brightness)
         {
-            if (0 > alpha || 255 < alpha)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(alpha),
-                    alpha,
-                    "Value must be within a range of 0 - 255.");
-            }
-
-            if (0f > hue || 360f < hue)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(hue),
-                    hue,
-                    "Value must be within a range of 0 - 360.");
-            }
-
-            if (0f > saturation || 1f < saturation)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(saturation),
-                    saturation,
+            if (0 > hue || 360 < hue)
+                throw new ArgumentOutOfRangeException(nameof(hue), hue, "Value must be within a range of 0 - 360.");
+            if (0 > saturation || 1 < saturation)
+                throw new ArgumentOutOfRangeException(nameof(saturation), saturation,
                     "Value must be within a range of 0 - 1.");
-            }
-
             if (0f > brightness || 1f < brightness)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(brightness),
-                    brightness,
+                throw new ArgumentOutOfRangeException(nameof(brightness), brightness,
                     "Value must be within a range of 0 - 1.");
-            }
-
-            if (0 == saturation)
+            
+            if (saturation < 0.5f/255)
             {
-                return Color.FromArgb(
-                                    alpha,
-                                    Convert.ToInt32(brightness * 255),
-                                    Convert.ToInt32(brightness * 255),
-                                    Convert.ToInt32(brightness * 255));
+                var br = Convert.ToInt32(brightness*255);
+                return Color.FromArgb(alpha, br, br, br);
             }
 
-            float fMax, fMid, fMin;
-            int iSextant, iMax, iMid, iMin;
+            var fMin = brightness;
+            var fMax = fMin;
             var bs = brightness*saturation;
 
             if (0.5 < brightness)
             {
-                fMax = brightness - bs + saturation;
-                fMin = brightness + bs - saturation;
+                fMax += saturation - bs;
+                fMin -= saturation - bs;
             }
             else
             {
-                fMax = brightness + bs;
-                fMin = brightness - bs;
+                fMax += bs;
+                fMin -= bs;
             }
 
-            iSextant = (int)Math.Floor(hue / 60f);
+            var iSextant = (int) Math.Floor(hue/60f);
             if (300f <= hue)
-            {
                 hue -= 360f;
-            }
-
             hue /= 60f;
-            hue -= 2f * (float)Math.Floor(((iSextant + 1f) % 6f) / 2f);
-            if (0 == iSextant % 2)
-            {
-                fMid = (hue * (fMax - fMin)) + fMin;
-            }
-            else
-            {
-                fMid = fMin - (hue * (fMax - fMin));
-            }
+            hue -= 2f*(float) Math.Floor(((iSextant + 1f)%6f)/2f);
 
-            iMax = Convert.ToInt32(fMax * 255);
-            iMid = Convert.ToInt32(fMid * 255);
-            iMin = Convert.ToInt32(fMin * 255);
+            var fMid = fMin;
+            if (iSextant%2 == 0)
+                fMid += hue*(fMax - fMin);
+            else
+                fMid -= hue*(fMax - fMin);
+
+            var iMax = Convert.ToInt32(fMax*255);
+            var iMid = Convert.ToInt32(fMid*255);
+            var iMin = Convert.ToInt32(fMin*255);
 
             switch (iSextant)
             {

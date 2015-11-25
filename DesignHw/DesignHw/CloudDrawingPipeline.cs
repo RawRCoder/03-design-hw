@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using DesignHw.Adapters;
 using DesignHw.Rendering;
 using DesignHw.Text;
 
@@ -26,20 +27,26 @@ namespace DesignHw
             CloudBuilder = cloudBuilder;
             Renderer = renderer;
         }
-
-        public void DrawCloud(string text, Graphics target)
+        
+        public void DrawCloud(IWordsExtractor extractor, IRenderTarget target)
+        {
+            DrawCloud(extractor.Words, target);
+        }
+        public void DrawCloud(string text, IRenderTarget target)
         {
             var words = text.Split(new [] {" ", "\n", "\r", "\t"}, StringSplitOptions.RemoveEmptyEntries);
             DrawCloud(words, target);
         }
-        public void DrawCloud(IEnumerable<string> words, Graphics target)
+        public void DrawCloud(IEnumerable<string> words, IRenderTarget target)
         {
             foreach (var word in words)
                 WordsCollectionBuilder.Register(word);
             
             var wordsSorted = WordsCollectionBuilder.Build();
-            var cloud = CloudBuilder.Build(wordsSorted, Renderer, target);
-            cloud.Render(target, Renderer);
+            var g = target.GetGraphics();
+            var cloud = CloudBuilder.Build(wordsSorted, Renderer, g);
+            cloud.Render(g, Renderer);
+            target.Close(g);
         }
     }
 }

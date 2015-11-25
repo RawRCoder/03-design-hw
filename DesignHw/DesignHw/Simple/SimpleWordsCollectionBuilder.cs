@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using DesignHw.Adapters;
 using DesignHw.Text;
 using NHunspell;
 
@@ -9,8 +9,8 @@ namespace DesignHw.Simple
     public class SimpleWordsCollectionBuilder<T> : WordsCollectionBuilder<T> where T : Word
     {
         public Hunspell Hunspell { get; }
-        public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor, Hunspell hunspell)
-            : base(wordConstructor)
+        public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor, Hunspell hunspell, params string[] restricted)
+            : base(wordConstructor, restricted)
         {
             Hunspell = hunspell;
         }

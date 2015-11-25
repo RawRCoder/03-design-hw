@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using CommandLine;
 using DesignHw;
+using DesignHw.Adapters;
 using DesignHw.Rendering;
 using DesignHw.Simple;
 using DesignHw.Text;
@@ -39,26 +40,23 @@ namespace Client
 
             var di = new StandardKernel();
             di.Bind<Func<string, Word>>().ToConstant<Func<string, Word>>(s => new Word(s));
-            di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>().WithPropertyValue("RestrictedWords", new HashSet<string>(restrictedWords));
+            di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>()
+                .WithConstructorArgument("restricted", restrictedWords);
             di.Bind<CloudBuilder<Word>>().To<PackingCloudBuilder<Word>>();
             di.Bind<WordRenderer<Word>>().To<SimpleWordRenderer<Word>>();
+            di.Bind<IWordsExtractor>().To<FileWordsExtractor>().WithConstructorArgument(typeof(string), clargs.InputFile);
+            di.Bind<IRenderTarget>().To<PngRenderTarget>()
+                .WithConstructorArgument(typeof(string), clargs.OutputFile)
+                .WithConstructorArgument("width", clargs.Width)
+                .WithConstructorArgument("height", clargs.Height);
             di.Bind<Hunspell>().ToConstant(new Hunspell(clargs.AffFile, clargs.DicFile));
 
             try
             {
-                using (di.Get<Hunspell>())
-                {
-                    var pl = di.Get<CloudDrawingPipeline<Word>>();
-                    
-                    var img = new Bitmap(clargs.Width, clargs.Height);
-                    var g = Graphics.FromImage(img);
-                    g.Clear(Color.Black);
-                    Console.WriteLine("Drawing ...");
-                    pl.DrawCloud(File.ReadAllText(clargs.InputFile, Encoding.UTF8), g);
-                    Console.WriteLine("Saving ...");
-                    img.Save(clargs.OutputFile, ImageFormat.Png);
-                    Console.WriteLine("Done!");
-                }
+                Console.WriteLine("Drawing ...");
+                var pl = di.Get<CloudDrawingPipeline<Word>>();
+                pl.DrawCloud(di.Get<IWordsExtractor>(), di.Get<IRenderTarget>());
+                Console.WriteLine("Done!");
             }
             catch (FileNotFoundException ex)
             {

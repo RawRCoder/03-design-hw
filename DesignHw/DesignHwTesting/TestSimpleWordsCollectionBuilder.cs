@@ -43,9 +43,9 @@ namespace DesignHwTesting
         [TestCase("ЛАЛА", "ЛАЛ", ExpectedResult = true)]
         public bool TestSuitable(string word, params string[] restricted)
         {
-            builder.RestrictedWords = new HashSet<string>(restricted);
+            builder.RestrictedWords.UnionWith(restricted);
             var result = builder.IsWordSuitable(word);
-            builder.RestrictedWords = new HashSet<string>();
+            builder.RestrictedWords.Clear();
             return result;
         }
     }

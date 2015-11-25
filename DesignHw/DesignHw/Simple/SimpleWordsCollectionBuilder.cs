@@ -39,7 +39,7 @@ namespace DesignHw.Simple
             return true;
         }
 
-        public override void OnEncounterWord(Word word)
+        protected override void OnEncounterWord(Word word)
         {
             ++word.Weight;
         }

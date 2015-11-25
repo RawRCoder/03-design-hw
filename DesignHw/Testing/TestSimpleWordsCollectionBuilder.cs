@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using DesignHw.Simple;
 using DesignHw.Text;
 using NHunspell;
 using Ninject;
-using NUnit.Framework;
 
-namespace DesignHwTesting
+namespace Testing
 {
     [TestFixture]
     public class TestSimpleWordsCollectionBuilder
@@ -37,9 +37,9 @@ namespace DesignHwTesting
         public bool TestSuitable(string word)
             => builder.IsWordSuitable(word);
         
-        [TestCase("ЛАЛ", "ЛАЛ", ExpectedResult = false)]
-        [TestCase("ЛАЛ", "ЛАЛА", ExpectedResult = true)]
-        [TestCase("ЛАЛА", "ЛАЛ", ExpectedResult = true)]
+        [TestCase("ЛАЛ", new[] { "ЛАЛ" }, ExpectedResult = false)]
+        [TestCase("ЛАЛ", new[] { "ЛАЛА" }, ExpectedResult = true)]
+        [TestCase("ЛАЛА", new [] { "ЛАЛ"}, ExpectedResult = true)]
         public bool TestSuitable(string word, params string[] restricted)
         {
             builder.RestrictedWords.UnionWith(restricted);

@@ -27,7 +27,7 @@ namespace DesignHw.Text
         
         public abstract string Normalize(string word);
         public abstract bool IsWordSuitable(string word);
-        public abstract void OnEncounterWord(Word word);
+        protected abstract void OnEncounterWord(Word word);
         public HashSet<string> RestrictedWords { get; set; }
 
         public uint TotalWords { get; private set; }

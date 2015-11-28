@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
+using System.IO;
+using System.Reflection;
 using DesignHw.Simple;
 using DesignHw.Text;
 using NHunspell;
@@ -14,6 +16,14 @@ namespace Testing
         [SetUp]
         public void Init()
         {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+            Environment.CurrentDirectory = path;
+
+            var asm = Assembly.GetAssembly(typeof(Hunspell));
+            var type = asm.GetType("NHunspell.MarshalHunspellDll", true);
+            var field = type.GetField("nativeDLLPath", BindingFlags.NonPublic | BindingFlags.Static);
+            field.SetValue(null, path);
+
             var di = new StandardKernel();
             di.Bind<Func<string, Word>>().ToConstant<Func<string, Word>>(s => new Word(s));
             di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>();

@@ -30,15 +30,15 @@ namespace Testing
         [Test]
         public void ShouldSortAndCalculatePercantageWeight()
         {
-            var kek = new Word("KEK") { Weight = 20 };
-            var lol = new Word("LOL") { Weight = 10 };
-            var wc = new WordsCollection<Word>(new[] { lol, kek });
+            var word1 = new Word("KEK") { Weight = 20 };
+            var word2 = new Word("LOL") { Weight = 10 };
+            var wc = new WordsCollection<Word>(new[] { word2, word1 });
             var coll = wc.ToArray();
             Assert.AreEqual(2, coll.Length);
-            Assert.AreSame(kek, coll.First());
-            Assert.AreSame(lol, coll.Last());
-            Assert.AreEqual(1.00, kek.PercantageWeight);
-            Assert.AreEqual(0.50, lol.PercantageWeight);
+            Assert.AreSame(word1, coll.First());
+            Assert.AreSame(word2, coll.Last());
+            Assert.AreEqual(1.00, word1.PercantageWeight);
+            Assert.AreEqual(0.50, word2.PercantageWeight);
         }
     }
 }

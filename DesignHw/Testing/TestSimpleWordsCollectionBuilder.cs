@@ -52,9 +52,9 @@ namespace Testing
         [TestCase("ЛАЛА", new [] { "ЛАЛ"}, ExpectedResult = true)]
         public bool TestSuitable(string word, params string[] restricted)
         {
+            builder.RestrictedWords.Clear();
             builder.RestrictedWords.UnionWith(restricted);
             var result = builder.IsWordSuitable(word);
-            builder.RestrictedWords.Clear();
             return result;
         }
     }

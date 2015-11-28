@@ -40,7 +40,7 @@ namespace DesignHw
         public void DrawCloud(IEnumerable<string> words, IRenderTarget target)
         {
             foreach (var word in words)
-                WordsCollectionBuilder.Register(word);
+                WordsCollectionBuilder.TryRegister(word);
             
             var wordsSorted = WordsCollectionBuilder.Build();
             var g = target.GetGraphics();

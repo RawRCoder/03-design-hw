@@ -18,7 +18,7 @@ namespace DesignHw.Text
             RestrictedWords = new HashSet<string>(restricted);
             foreach (var word in extractor.Words)
             {
-                Register(word);
+                TryRegister(word);
             }
         }
 
@@ -33,7 +33,7 @@ namespace DesignHw.Text
         public uint TotalWords { get; private set; }
 
 
-        public bool Register(string word)
+        public bool TryRegister(string word)
         {
             word = Normalize(word);
             if (!IsWordSuitable(word))
@@ -50,13 +50,8 @@ namespace DesignHw.Text
             OnEncounterWord(w);
             return true;
         }
-        public bool Register(IWordsExtractor extractor)
-        {
-            var any = false;
-            foreach (var word in extractor.Words.Where(Register))
-                any = true;
-            return any;
-        }
+        public bool TryRegister(IWordsExtractor extractor) 
+            => extractor.Words.Count(TryRegister) > 0;
 
         public virtual WordsCollection<T> Build()
             => new WordsCollection<T>(Collection.Values);

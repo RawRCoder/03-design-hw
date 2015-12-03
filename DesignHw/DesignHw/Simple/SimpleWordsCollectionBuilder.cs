@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DesignHw.Adapters;
 using DesignHw.Text;
 using NHunspell;
 

@@ -20,12 +20,12 @@ namespace DesignHw.Simple
             if (string.IsNullOrWhiteSpace(word))
                 return null;
             
-            word = Hunspell.Stem(word).FirstOrDefault() ?? word;
+            var stemmedWord = Hunspell.Stem(word).FirstOrDefault() ?? word;
 
-            word = word.Trim().ToUpperInvariant();
-            word = new string(word.Where(char.IsLetterOrDigit).ToArray());
+            stemmedWord = stemmedWord.Trim().ToUpperInvariant();
+            stemmedWord = new string(stemmedWord.Where(char.IsLetterOrDigit).ToArray());
 
-            return string.IsNullOrWhiteSpace(word) ? null : word;
+            return string.IsNullOrWhiteSpace(stemmedWord) ? null : stemmedWord;
         }
 
         public override bool IsWordSuitable(string word)

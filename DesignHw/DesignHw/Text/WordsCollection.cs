@@ -26,8 +26,8 @@ namespace DesignHw.Text
         public T this[uint id]
             => Collection[id];
 
-        public IEnumerator<T> GetEnumerator() 
-            => Collection.Select(v => v).GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+            => Collection.AsEnumerable().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() 
             => GetEnumerator();
     }

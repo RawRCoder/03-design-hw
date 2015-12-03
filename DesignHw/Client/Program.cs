@@ -25,7 +25,8 @@ namespace Client
             di.Bind<CloudBuilder<Word>>().To<PackingCloudBuilder<Word>>();
             di.Bind<WordRenderer<Word>>().To<SimpleWordRenderer<Word>>();
             di.Bind<IWordsExtractor>().To<FileWordsExtractor>().WithConstructorArgument(typeof(string), clargs.InputFile);
-            di.Bind<IRenderTarget>().To<PngRenderTarget>()
+            di.Bind<IRenderTarget>().To<ImageFileRenderTarget>()
+                .WithConstructorArgument(typeof(ImageFormat), ImageFormat.Png)
                 .WithConstructorArgument(typeof(string), clargs.OutputFile)
                 .WithConstructorArgument("width", clargs.Width)
                 .WithConstructorArgument("height", clargs.Height);

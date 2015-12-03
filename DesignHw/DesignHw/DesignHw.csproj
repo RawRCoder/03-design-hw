@@ -46,13 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\BmpRenderTarget.cs" />
     <Compile Include="Adapters\ConstWordsExtractor.cs" />
     <Compile Include="Adapters\FileWordsExtractor.cs" />
     <Compile Include="Adapters\ImageFileRenderTarget.cs" />
     <Compile Include="Adapters\ImageRenderTarget.cs" />
     <Compile Include="Adapters\IRenderTarget.cs" />
-    <Compile Include="Adapters\PngRenderTarget.cs" />
     <Compile Include="CloudDrawingPipeline.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Rendering\Block.cs" />

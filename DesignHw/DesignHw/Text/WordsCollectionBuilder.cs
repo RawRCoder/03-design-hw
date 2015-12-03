@@ -12,15 +12,6 @@ namespace DesignHw.Text
             WordConstructor = wordConstructor;
             RestrictedWords = new HashSet<string>(restricted);
         }
-        protected WordsCollectionBuilder(Func<string, T> wordConstructor, IWordsExtractor extractor, params string[] restricted)
-        {
-            WordConstructor = wordConstructor;
-            RestrictedWords = new HashSet<string>(restricted);
-            foreach (var word in extractor.Words)
-            {
-                TryRegister(word);
-            }
-        }
 
         public virtual Func<string, T> WordConstructor { get; }
         private Dictionary<string, T> Collection { get; } = new Dictionary<string, T>();

@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
+using DesignHw.Text;
 
 namespace DesignHw.Rendering
 {
-    public class Block<T>
+    public class Block
     {
-        public T Data { get; set; }
+        public Word Data { get; set; }
         public PointF LeftTop { get; set; }
         public SizeF Size { get; set; }
         public PointF RightBottom
@@ -27,13 +28,13 @@ namespace DesignHw.Rendering
             : this(new SizeF(width, height))
         { }
 
-        public bool IsInside(Block<T> container)
+        public bool IsInside(Block container)
             => container.LeftTop.X <= LeftTop.X && 
             container.LeftTop.Y <= LeftTop.Y && 
             container.RightBottom.X >= RightBottom.X && 
             container.RightBottom.Y >= RightBottom.Y;
 
-        public bool Contains(Block<T> other)
+        public bool Contains(Block other)
             => other.IsInside(this);
 
         public override string ToString()

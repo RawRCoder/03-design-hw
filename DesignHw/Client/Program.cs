@@ -17,11 +17,10 @@ namespace Client
     {
         static void DoBindings(StandardKernel di, IEnumerable<string> restrictedWords, CommandLineArgs clargs)
         {
-            di.Bind<Func<string, Word>>().ToConstant<Func<string, Word>>(s => new Word(s));
-            di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>()
+            di.Bind<WordsCollectionBuilder>().To<SimpleWordsCollectionBuilder>()
                 .WithConstructorArgument("restricted", restrictedWords);
-            di.Bind<CloudBuilder<Word>>().To<PackingCloudBuilder<Word>>();
-            di.Bind<WordRenderer<Word>>().To<SimpleWordRenderer<Word>>();
+            di.Bind<CloudBuilder>().To<PackingCloudBuilder>();
+            di.Bind<WordDrawingStyle>().To<SimpleWordDrawingStyle>();
             di.Bind<IWordsExtractor>().To<FileWordsExtractor>().WithConstructorArgument(typeof(string), clargs.InputFile);
             di.Bind<IRenderTarget>().To<ImageFileRenderTarget>()
                 .WithConstructorArgument(typeof(ImageFormat), ImageFormat.Png)
@@ -57,7 +56,7 @@ namespace Client
             try
             {
                 Console.WriteLine("Drawing ...");
-                var pl = di.Get<CloudDrawingPipeline<Word>>();
+                var pl = di.Get<CloudDrawingPipeline>();
                 pl.DrawCloud(di.Get<IWordsExtractor>(), di.Get<IRenderTarget>());
                 Console.WriteLine("Done!");
             }

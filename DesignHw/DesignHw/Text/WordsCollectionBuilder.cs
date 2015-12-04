@@ -5,20 +5,18 @@ using DesignHw.Adapters;
 
 namespace DesignHw.Text
 {
-    public abstract class WordsCollectionBuilder<T> where T:Word
+    public abstract class WordsCollectionBuilder
     {
-        protected WordsCollectionBuilder(Func<string, T> wordConstructor, params string[] restricted)
+        protected WordsCollectionBuilder(params string[] restricted)
         {
-            WordConstructor = wordConstructor;
             RestrictedWords = new HashSet<string>(restricted);
         }
-
-        public virtual Func<string, T> WordConstructor { get; }
-        private Dictionary<string, T> Collection { get; } = new Dictionary<string, T>();
+        
+        private Dictionary<string, Word> Collection { get; } = new Dictionary<string, Word>();
         
         public abstract string Normalize(string word);
         public abstract bool IsWordSuitable(string word);
-        protected abstract void OnEncounterWord(Word word);
+        protected abstract void OnEncounterWord(Text.Word word);
         public HashSet<string> RestrictedWords { get; set; }
 
         public uint TotalWords { get; private set; }
@@ -35,7 +33,7 @@ namespace DesignHw.Text
             var w = Collection.SafeGet(word);
             if (w == null)
             {
-                w = WordConstructor(word);
+                w = new Word(word);
                 Collection.Add(word, w);
             }
             OnEncounterWord(w);
@@ -44,7 +42,7 @@ namespace DesignHw.Text
         public bool TryRegister(IWordsExtractor extractor) 
             => extractor.Words.Count(TryRegister) > 0;
 
-        public virtual WordsCollection<T> Build()
-            => new WordsCollection<T>(Collection.Values);
+        public virtual WordsCollection Build()
+            => new WordsCollection(Collection.Values);
     }
 }

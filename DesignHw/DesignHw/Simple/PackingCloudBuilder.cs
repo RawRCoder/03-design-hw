@@ -7,16 +7,16 @@ using DesignHw.Text;
 
 namespace DesignHw.Simple
 {
-    public class PackingCloudBuilder<TWord> : CloudBuilder<TWord> where TWord : Word
+    public class PackingCloudBuilder : CloudBuilder
     {
-        public override Cloud<TWord> Build(WordsCollection<TWord> words, WordRenderer<TWord> renderer, Graphics g)
+        public override Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g)
         {
             var blocks = BuildBlocks(words, renderer, g).ToList();
             Pack(blocks, g);
-            return new Cloud<TWord>(blocks);
+            return new Cloud(blocks);
         }
 
-        private void Pack(IEnumerable<Block<TWord>> blocks, Graphics g)
+        private void Pack(IEnumerable<Block> blocks, Graphics g)
         {
             var maxX = (int) Math.Ceiling(g.VisibleClipBounds.Width) - 1;
             var level = new int[maxX + 1];
@@ -24,7 +24,7 @@ namespace DesignHw.Simple
                 PackBlock(bl, maxX, level, g);
         }
 
-        private void PackBlock(Block<TWord> bl, int maxX, int[] level, Graphics g)
+        private void PackBlock(Block bl, int maxX, int[] level, Graphics g)
         {
             TryPlaceBlockRightToLeft(bl, maxX, level);
             TryPlaceBlockLeftToRight(bl, maxX, level);
@@ -37,7 +37,7 @@ namespace DesignHw.Simple
             AddBlockToLevel(bl, level);
         }
 
-        private void TryPlaceBlockRightToLeft(Block<TWord> bl, int maxX, int[] level)
+        private void TryPlaceBlockRightToLeft(Block bl, int maxX, int[] level)
         {
             var height = level[maxX];
             var width = 1;
@@ -53,7 +53,7 @@ namespace DesignHw.Simple
                 }
             }
         }
-        private void TryPlaceBlockLeftToRight(Block<TWord> bl, int maxX, int[] level)
+        private void TryPlaceBlockLeftToRight(Block bl, int maxX, int[] level)
         {
             var height = level[0];
             var width = 1;
@@ -77,21 +77,21 @@ namespace DesignHw.Simple
                 }
             }
         }
-        private void AddBlockToLevel(Block<TWord> bl, int[] level)
+        private void AddBlockToLevel(Block bl, int[] level)
         {
             for (var x = 0; x < (int)bl.Size.Width; ++x)
                 level[(int)bl.LeftTop.X + x] = (int)(bl.LeftTop.Y + bl.Size.Height);
             
         }
 
-        private IEnumerable<Block<TWord>> BuildBlocks(IEnumerable<TWord> words, WordRenderer<TWord> renderer, Graphics g)
+        private IEnumerable<Block> BuildBlocks(IEnumerable<Word> words, WordRenderer renderer, Graphics g)
         {
             foreach (var word in words)
             {
                 var sz = renderer.CalculateSize(word, g);
                 if (sz.Width > g.VisibleClipBounds.Width || sz.Height > g.VisibleClipBounds.Height)
                     continue;
-                yield return new Block<TWord>(new PointF(-sz.Width, -sz.Height), sz) { Data = word };
+                yield return new Block(new PointF(-sz.Width, -sz.Height), sz) { Data = word };
             }
         }
     }

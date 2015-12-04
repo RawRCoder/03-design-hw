@@ -58,7 +58,7 @@
     <Compile Include="Rendering\CloudBuilder.cs" />
     <Compile Include="Simple\PackingCloudBuilder.cs" />
     <Compile Include="Simple\RandomCloudBuilder.cs" />
-    <Compile Include="Simple\SimpleWordRenderer.cs" />
+    <Compile Include="Simple\SimpleWordDrawingStyle.cs" />
     <Compile Include="Rendering\WordRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simple\SimpleWordsCollectionBuilder.cs" />

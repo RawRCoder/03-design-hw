@@ -5,11 +5,10 @@ using DesignHw.Text;
 
 namespace DesignHw.Simple
 {
-    public class SimpleWordRenderer<T> : WordRenderer<T>
-        where T : Word
+    public class SimpleWordDrawingStyle : WordDrawingStyle
     {
         static readonly Random R;
-        static SimpleWordRenderer()
+        static SimpleWordDrawingStyle()
         {
             R = new Random();
         }
@@ -20,11 +19,11 @@ namespace DesignHw.Simple
             () => Extensions.FromAHSB(255, R.NextSingle(0, 360), 1f, R.NextSingle(0.5f, 0.75f));
         public FontFamily BasicFont { get; set; } = FontFamily.GenericSansSerif;
 
-        public override Color GetColorFor(T word)
+        public override Color GetColorFor(Word word)
             => Color.FromArgb((int) (Math.Sqrt(word.PercantageWeight )* 255), BasicColor());
-        public override Font GetFontFor(T word)
+        public override Font GetFontFor(Word word)
             => new Font(BasicFont, (int) (word.PercantageWeight*(MaxFontSize - MinFontSize) + MinFontSize));
-        public override SizeF CalculateSize(T word, Graphics g) 
+        public override SizeF CalculateSize(Word word, Graphics g) 
             => g.MeasureString(word.Text, GetFontFor(word));
     }
 }

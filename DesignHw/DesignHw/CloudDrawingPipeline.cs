@@ -6,14 +6,13 @@ using DesignHw.Text;
 
 namespace DesignHw
 {
-    public class CloudDrawingPipeline<TWord>
-        where TWord : Word
+    public class CloudDrawingPipeline
     {
-        public WordsCollectionBuilder<TWord> WordsCollectionBuilder { get; }
-        public CloudBuilder<TWord> CloudBuilder { get; }
-        public WordRenderer<TWord> Renderer { get; }
+        public WordsCollectionBuilder WordsCollectionBuilder { get; }
+        public CloudBuilder CloudBuilder { get; }
+        public WordRenderer Renderer { get; }
 
-        public CloudDrawingPipeline(WordsCollectionBuilder<TWord> wordsCollectionBuilder, CloudBuilder<TWord> cloudBuilder, WordRenderer<TWord> renderer)
+        public CloudDrawingPipeline(WordsCollectionBuilder wordsCollectionBuilder, CloudBuilder cloudBuilder, WordRenderer renderer)
         {
             if (wordsCollectionBuilder == null)
                 throw new ArgumentNullException(nameof(wordsCollectionBuilder));
@@ -39,7 +38,7 @@ namespace DesignHw
             var wordsSorted = WordsCollectionBuilder.Build();
             var g = target.GetGraphics();
             var cloud = CloudBuilder.Build(wordsSorted, Renderer, g);
-            cloud.Render(g, Renderer);
+            Renderer.Render(cloud, g);
             target.Close(g);
         }
     }

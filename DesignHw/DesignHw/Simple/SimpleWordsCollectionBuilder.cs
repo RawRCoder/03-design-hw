@@ -5,11 +5,11 @@ using NHunspell;
 
 namespace DesignHw.Simple
 {
-    public class SimpleWordsCollectionBuilder<T> : WordsCollectionBuilder<T> where T : Word
+    public class SimpleWordsCollectionBuilder : WordsCollectionBuilder
     {
         public Hunspell Hunspell { get; }
-        public SimpleWordsCollectionBuilder(Func<string, T> wordConstructor, Hunspell hunspell, params string[] restricted)
-            : base(wordConstructor, restricted)
+        public SimpleWordsCollectionBuilder(Hunspell hunspell, params string[] restricted)
+            : base(restricted)
         {
             Hunspell = hunspell;
         }

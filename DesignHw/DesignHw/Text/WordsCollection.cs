@@ -4,10 +4,9 @@ using System.Linq;
 
 namespace DesignHw.Text
 {
-    public class WordsCollection<T> : IEnumerable<T> 
-        where T : Word
+    public class WordsCollection : IEnumerable<Word> 
     {
-        public WordsCollection(IEnumerable<T> words)
+        public WordsCollection(IEnumerable<Word> words)
         {
             var coll = words.ToList();
             coll.Sort((x, y) => -x.CompareTo(y));
@@ -20,13 +19,13 @@ namespace DesignHw.Text
             }
         }
 
-        protected T[] Collection { get; }
+        protected Word[] Collection { get; }
         public uint TotalWords { get; }
 
-        public T this[uint id]
+        public Word this[uint id]
             => Collection[id];
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<Word> GetEnumerator()
             => Collection.AsEnumerable().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() 
             => GetEnumerator();

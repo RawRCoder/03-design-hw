@@ -12,7 +12,7 @@ namespace Testing
     [TestFixture]
     public class TestSimpleWordsCollectionBuilder
     {
-        private WordsCollectionBuilder<Word> builder;
+        private WordsCollectionBuilder builder;
         [SetUp]
         public void Init()
         {
@@ -26,10 +26,10 @@ namespace Testing
 
             var di = new StandardKernel();
             di.Bind<Func<string, Word>>().ToConstant<Func<string, Word>>(s => new Word(s));
-            di.Bind<WordsCollectionBuilder<Word>>().To<SimpleWordsCollectionBuilder<Word>>();
+            di.Bind<WordsCollectionBuilder>().To<SimpleWordsCollectionBuilder>();
             di.Bind<Hunspell>().ToConstant(new Hunspell("ru_RU.aff", "ru_RU.dic"));
 
-            builder = di.Get<WordsCollectionBuilder<Word>>();
+            builder = di.Get<WordsCollectionBuilder>();
         }
 
         [TestCase("", ExpectedResult = null, TestName = "Empty string")]

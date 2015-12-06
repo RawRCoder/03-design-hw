@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DesignHw.Adapters
@@ -13,7 +14,7 @@ namespace DesignHw.Adapters
 
         public string FileName { get; }
         public IEnumerable<string> Words 
-            => File.ReadAllText(FileName, Encoding.UTF8).Split();
+            => File.ReadLines(FileName, Encoding.UTF8).SelectMany(s => s.Split());
         
     }
 }

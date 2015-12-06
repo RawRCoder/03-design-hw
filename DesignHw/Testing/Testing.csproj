@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy, Version=1.25.3.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.1.25.3\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
       <Private>True</Private>
@@ -67,6 +71,7 @@
     <Compile Include="TestSimpleNormalizator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestWordCollection.cs" />
+    <Compile Include="TestWorldCollectionBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

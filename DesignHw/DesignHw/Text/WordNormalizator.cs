@@ -16,12 +16,6 @@ namespace DesignHw.Text
         }
         public abstract string Normalize(string word);
 
-        public virtual bool IsWordSuitable(string word)
-        {
-            var nWord = Normalize(word);
-            if (string.IsNullOrEmpty(nWord))
-                return false;
-            return !RestrictedWords.Contains(nWord);
-        }
+        public abstract bool IsWordSuitable(string word);
     }
 }

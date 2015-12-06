@@ -26,20 +26,17 @@ namespace DesignHw
             Renderer = renderer;
         }
         
-        public void DrawCloud(IWordsExtractor extractor, IRenderTarget target)
-        {
-            DrawCloud(extractor.Words, target);
-        }
         public void DrawCloud(IEnumerable<string> words, IRenderTarget target)
         {
-            foreach (var word in words)
-                WordsCollectionBuilder.TryRegister(word);
-            
-            var wordsSorted = WordsCollectionBuilder.Build();
+            var wordsSorted = WordsCollectionBuilder.Build(words);
             var g = target.GetGraphics();
             var cloud = CloudBuilder.Build(wordsSorted, Renderer, g);
             Renderer.Render(cloud, g);
             target.Close(g);
+        }
+        public void DrawCloud(IWordsExtractor extractor, IRenderTarget target)
+        {
+            DrawCloud(extractor.Words, target);
         }
     }
 }

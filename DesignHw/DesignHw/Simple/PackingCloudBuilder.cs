@@ -84,8 +84,9 @@ namespace DesignHw.Simple
             
         }
 
-        private IEnumerable<Block> BuildBlocks(IEnumerable<Word> words, WordRenderer renderer, Graphics g)
+        private static IEnumerable<Block> BuildBlocks(IEnumerable<Word> words, WordRenderer renderer, Graphics g)
         {
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var word in words)
             {
                 var sz = renderer.CalculateSize(word, g);

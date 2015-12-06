@@ -17,7 +17,7 @@ namespace Client
     {
         static void DoBindings(StandardKernel di, IEnumerable<string> restrictedWords, CommandLineArgs clargs)
         {
-            di.Bind<WordsCollectionBuilder>().To<SimpleWordsCollectionBuilder>()
+            di.Bind<WordNormalizator>().To<SimpleNormalizator>()
                 .WithConstructorArgument("restricted", restrictedWords);
             di.Bind<CloudBuilder>().To<PackingCloudBuilder>();
             di.Bind<WordDrawingStyle>().To<SimpleWordDrawingStyle>();

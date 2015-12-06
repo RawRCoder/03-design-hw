@@ -59,7 +59,7 @@ namespace DesignHw
             if (300f <= hue)
                 hue -= 360f;
             hue /= 60f;
-            hue -= 2f*(float) Math.Floor(((iSextant + 1f)%6f)/2f);
+            hue -= 2f*(float) Math.Floor((iSextant + 1f)%6f/2f);
 
             var fMid = fMin;
             if (iSextant%2 == 0)

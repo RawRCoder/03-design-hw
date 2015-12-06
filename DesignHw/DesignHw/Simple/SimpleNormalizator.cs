@@ -1,14 +1,13 @@
-using System;
 using System.Linq;
 using DesignHw.Text;
 using NHunspell;
 
 namespace DesignHw.Simple
 {
-    public class SimpleWordsCollectionBuilder : WordsCollectionBuilder
+    public class SimpleNormalizator : WordNormalizator
     {
         public Hunspell Hunspell { get; }
-        public SimpleWordsCollectionBuilder(Hunspell hunspell, params string[] restricted)
+        public SimpleNormalizator(Hunspell hunspell, params string[] restricted)
             : base(restricted)
         {
             Hunspell = hunspell;
@@ -27,20 +26,7 @@ namespace DesignHw.Simple
             return string.IsNullOrWhiteSpace(stemmedWord) ? null : stemmedWord;
         }
 
-        public override bool IsWordSuitable(string word)
-        {
-            if (string.IsNullOrWhiteSpace(word))
-                return false;
-
-            if (RestrictedWords.Contains(word))
-                return false;
-
-            return true;
-        }
-
-        protected override void OnEncounterWord(Word word)
-        {
-            ++word.Weight;
-        }
+        public override bool IsWordSuitable(string word) 
+            => !string.IsNullOrWhiteSpace(word)&&!RestrictedWords.Contains(word);
     }
 }

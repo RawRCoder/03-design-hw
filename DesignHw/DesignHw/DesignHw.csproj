@@ -61,9 +61,10 @@
     <Compile Include="Simple\SimpleWordDrawingStyle.cs" />
     <Compile Include="Rendering\WordRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Simple\SimpleWordsCollectionBuilder.cs" />
+    <Compile Include="Simple\SimpleNormalizator.cs" />
     <Compile Include="Adapters\IWordsExtractor.cs" />
     <Compile Include="Text\Word.cs" />
+    <Compile Include="Text\WordNormalizator.cs" />
     <Compile Include="Text\WordsCollection.cs" />
     <Compile Include="Text\WordsCollectionBuilder.cs" />
   </ItemGroup>

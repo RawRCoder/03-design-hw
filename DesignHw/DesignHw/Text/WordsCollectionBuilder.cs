@@ -4,7 +4,7 @@ using DesignHw.Adapters;
 
 namespace DesignHw.Text
 {
-    public abstract class WordsCollectionBuilder
+    public class WordsCollectionBuilder
     {
         protected WordsCollectionBuilder(WordNormalizator normalizator)
         {

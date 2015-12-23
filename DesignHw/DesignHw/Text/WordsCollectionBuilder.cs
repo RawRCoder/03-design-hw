@@ -3,18 +3,12 @@ using System.Linq;
 
 namespace DesignHw.Text
 {
-    public class WordsCollectionBuilder
+    public delegate WordsCollection WordsCollectionBuilder(WordNormalizator normalizator, IEnumerable<string> words);
+    public static class DefaultWordsCollectionBuilder
     {
-        public WordsCollectionBuilder(WordNormalizator normalizator)
-        {
-            Normalizator = normalizator;
-        }
-
-        public WordNormalizator Normalizator { get; }
-
-        public WordsCollection Build(IEnumerable<string> words)
-            => new WordsCollection(words.Select(Normalizator.Normalize)
-                .Where(Normalizator.IsWordSuitable)
+        public static WordsCollection BuildWordCollection(WordNormalizator normalizator, IEnumerable<string> words)
+            => new WordsCollection(words.Select(normalizator.Normalize)
+                .Where(normalizator.IsWordSuitable)
                 .GroupBy(s => s)
                 .Select(g => new Word(g.Key) {Weight = g.Count()}));
     }

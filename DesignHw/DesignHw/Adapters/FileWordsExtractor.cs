@@ -5,16 +5,10 @@ using System.Text;
 
 namespace DesignHw.Adapters
 {
-    public class FileWordsExtractor : IWordsExtractor
+    public static class FileWordsExtractor
     {
-        public FileWordsExtractor(string fileName)
-        {
-            FileName = fileName;
-        }
-
-        public string FileName { get; }
-        public IEnumerable<string> Words 
-            => File.ReadLines(FileName, Encoding.UTF8).SelectMany(s => s.Split());
+        public static IEnumerable<string> GetWordsFromFile(string fileName) 
+            => File.ReadLines(fileName, Encoding.UTF8).SelectMany(s => s.Split());
         
     }
 }

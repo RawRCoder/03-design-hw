@@ -6,37 +6,33 @@ using DesignHw.Text;
 
 namespace DesignHw
 {
-    public class CloudDrawingPipeline
+    public static class CloudDrawingPipeline
     {
-        public WordsCollectionBuilder WordsCollectionBuilder { get; }
-        public CloudBuilder CloudBuilder { get; }
-        public WordRenderer Renderer { get; }
-
-        public CloudDrawingPipeline(WordsCollectionBuilder wordsCollectionBuilder, CloudBuilder cloudBuilder, WordRenderer renderer)
+        public static void DrawCloud(WordsCollectionBuilder wcbuilder, WordNormalizator normalizator, IEnumerable<string> words, CloudBuilder cloudBuilder, WordRenderer renderer, RenderTarget target)
         {
-            if (wordsCollectionBuilder == null)
-                throw new ArgumentNullException(nameof(wordsCollectionBuilder));
+            if (wcbuilder == null)
+                throw new ArgumentNullException(nameof(wcbuilder));
+            if (normalizator == null)
+                throw new ArgumentNullException(nameof(normalizator));
+
+            var wordsSorted = wcbuilder(normalizator, words);
+            DrawCloud(wordsSorted, cloudBuilder, renderer, target);
+            
+        }
+        public static void DrawCloud(WordsCollection words, CloudBuilder cloudBuilder, WordRenderer renderer, RenderTarget target)
+        {
+            if (words == null)
+                throw new ArgumentNullException(nameof(words));
             if (cloudBuilder == null)
                 throw new ArgumentNullException(nameof(cloudBuilder));
             if (renderer == null)
                 throw new ArgumentNullException(nameof(renderer));
 
-            WordsCollectionBuilder = wordsCollectionBuilder;
-            CloudBuilder = cloudBuilder;
-            Renderer = renderer;
-        }
-        
-        public void DrawCloud(IEnumerable<string> words, IRenderTarget target)
-        {
-            var wordsSorted = WordsCollectionBuilder.Build(words);
-            var g = target.GetGraphics();
-            var cloud = CloudBuilder.Build(wordsSorted, Renderer, g);
-            Renderer.Render(cloud, g);
-            target.Close(g);
-        }
-        public void DrawCloud(IWordsExtractor extractor, IRenderTarget target)
-        {
-            DrawCloud(extractor.Words, target);
+            target.Render(g =>
+                renderer.Render(cloudBuilder(words, renderer, g), g)
+                );
         }
     }
+
+    
 }

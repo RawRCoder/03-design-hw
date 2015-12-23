@@ -19,10 +19,8 @@ namespace Client
         {
             di.Bind<WordNormalizator>().To<SimpleNormalizator>()
                 .WithConstructorArgument("restricted", restrictedWords);
-            di.Bind<CloudBuilder>().To<PackingCloudBuilder>();
             di.Bind<WordDrawingStyle>().To<SimpleWordDrawingStyle>();
-            di.Bind<IWordsExtractor>().To<FileWordsExtractor>().WithConstructorArgument(typeof(string), clargs.InputFile);
-            di.Bind<IRenderTarget>().To<ImageFileRenderTarget>()
+            di.Bind<RenderTarget>().To<ImageFileRenderTarget>()
                 .WithConstructorArgument(typeof(ImageFormat), ImageFormat.Png)
                 .WithConstructorArgument(typeof(string), clargs.OutputFile)
                 .WithConstructorArgument("width", clargs.Width)
@@ -56,8 +54,13 @@ namespace Client
             try
             {
                 Console.WriteLine("Drawing ...");
-                var pl = di.Get<CloudDrawingPipeline>();
-                pl.DrawCloud(di.Get<IWordsExtractor>(), di.Get<IRenderTarget>());
+                CloudDrawingPipeline.DrawCloud(
+                    DefaultWordsCollectionBuilder.BuildWordCollection,
+                    di.Get<WordNormalizator>(),
+                    FileWordsExtractor.GetWordsFromFile(clargs.InputFile),
+                    PackingCloudBuilder.BuildCloud,
+                    di.Get<WordRenderer>(),
+                    di.Get<RenderTarget>());
                 Console.WriteLine("Done!");
             }
             catch (FileNotFoundException ex)

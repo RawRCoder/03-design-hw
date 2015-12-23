@@ -7,10 +7,13 @@ using DesignHw.Text;
 
 namespace DesignHw.Simple
 {
-    public class RandomCloudBuilder : CloudBuilder
+    public class RandomCloudBuilder
     {
+        public static Cloud BuildCloud(WordsCollection words, WordRenderer renderer, Graphics g)
+            => new RandomCloudBuilder().Build(words, renderer, g);
+
         readonly Random _r = new Random();
-        public override Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g) 
+        public Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g) 
             => new Cloud(ContinousBuild(words, renderer, g));
 
         private IEnumerable<Block> ContinousBuild(IEnumerable<Word> words, WordRenderer renderer, Graphics g) 

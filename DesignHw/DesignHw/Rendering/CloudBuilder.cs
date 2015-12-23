@@ -3,8 +3,5 @@ using DesignHw.Text;
 
 namespace DesignHw.Rendering
 {
-    public abstract class CloudBuilder
-    {
-        public abstract Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g);
-    }
+    public delegate Cloud CloudBuilder(WordsCollection words, WordRenderer renderer, Graphics g);
 }

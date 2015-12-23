@@ -12,18 +12,18 @@ namespace Testing
             public override string Normalize(string word) => word.ToUpperInvariant();
             public override bool IsWordSuitable(string word) => !string.IsNullOrWhiteSpace(word);
         }
-        WordsCollectionBuilder _builder;
+        FakeNormailzer _normalizer;
         [SetUp]
         public void Init()
         {
-            _builder = new WordsCollectionBuilder(new FakeNormailzer());
+            _normalizer = new FakeNormailzer();
         }
 
 
         [Test]
         public void TestEmpty()
         {
-            var result = _builder.Build(new string[0]);
+            var result = DefaultWordsCollectionBuilder.BuildWordCollection(_normalizer, new string[0]);
             Assert.AreNotEqual(null, result);
             CollectionAssert.IsEmpty(result);
         }
@@ -31,7 +31,7 @@ namespace Testing
         [Test]
         public void TestSingle()
         {
-            var result = _builder.Build(new[] { "Lol" }).ToArray();
+            var result = DefaultWordsCollectionBuilder.BuildWordCollection(_normalizer, new[] { "Lol" }).ToArray();
             Assert.AreEqual(1, result.Length);
             Assert.AreNotEqual(null, result[0]);
             Assert.AreEqual("LOL", result[0].Text);
@@ -40,7 +40,7 @@ namespace Testing
         [Test]
         public void TestPairOfSame()
         {
-            var result = _builder.Build(new[] { "Lol", "Lol" }).ToArray();
+            var result = DefaultWordsCollectionBuilder.BuildWordCollection(_normalizer, new[] { "Lol", "Lol" }).ToArray();
             Assert.AreEqual(1, result.Length);
             Assert.AreNotEqual(null, result[0]);
             Assert.AreEqual("LOL", result[0].Text);
@@ -49,7 +49,7 @@ namespace Testing
         [Test]
         public void TestFull()
         {
-            var result = _builder.Build(new[] { "Lol", "Kek", "lol" }).ToArray();
+            var result = DefaultWordsCollectionBuilder.BuildWordCollection(_normalizer, new[] { "Lol", "Kek", "lol" }).ToArray();
             Assert.AreEqual(2, result.Length);
             Assert.AreNotEqual(null, result[0]);
             Assert.AreEqual("LOL", result[0].Text);

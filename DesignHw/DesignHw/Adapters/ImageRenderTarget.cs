@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 
 namespace DesignHw.Adapters
 {
-    public class ImageRenderTarget : IRenderTarget
+    public class ImageRenderTarget : RenderTarget
     {
         public Image Image { get; }
         private Lazy<Graphics> LazyGraphics { get; }
@@ -19,8 +19,8 @@ namespace DesignHw.Adapters
         {
         }
 
-        public Graphics GetGraphics()
+        public override Graphics GetGraphics()
             => LazyGraphics.Value;
-        public virtual void Close(Graphics g) { }
+        public override void Close(Graphics g) { }
     }
 }

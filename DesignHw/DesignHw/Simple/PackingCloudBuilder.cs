@@ -7,9 +7,12 @@ using DesignHw.Text;
 
 namespace DesignHw.Simple
 {
-    public class PackingCloudBuilder : CloudBuilder
+    public class PackingCloudBuilder
     {
-        public override Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g)
+        public static Cloud BuildCloud(WordsCollection words, WordRenderer renderer, Graphics g) 
+            => new PackingCloudBuilder().Build(words, renderer, g);
+
+        public Cloud Build(WordsCollection words, WordRenderer renderer, Graphics g)
         {
             var blocks = BuildBlocks(words, renderer, g).ToList();
             Pack(blocks, g);

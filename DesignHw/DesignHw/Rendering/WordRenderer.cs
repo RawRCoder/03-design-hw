@@ -25,7 +25,7 @@ namespace DesignHw.Rendering
             }
         }
     }
-
+    
     public abstract class WordDrawingStyle
     {
         public abstract SizeF CalculateSize(Word word, Graphics g);
